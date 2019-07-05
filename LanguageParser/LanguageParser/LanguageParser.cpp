@@ -111,7 +111,6 @@ public:
 
 	void Feed(int ln, string line)
 	{
-		cout << "TODO: feed new line" << endl;
 		Expression *e = Parse(ln, line);		
 		if (e->IsCommand(ENDSCOPE))
 		{
@@ -147,11 +146,11 @@ public:
 			istream_iterator<string>());
 
 		//debug
-		cout << "DEBUG: words: ";
-		for (string word : words) {
-			cout << word + ", ";
-		}
-		cout << "\n";
+		//cout << "DEBUG: words: ";
+		//for (string word : words) {
+		//   cout << word + ", ";
+		//}
+		//cout << "\n";
 
 		// can only be endscope
 		if (words.size() == 1) {
@@ -231,7 +230,7 @@ private:
 		int i = 0;
 
 		while (getline(ss, line)) {
-			cout << "DEBUG: parse line: "+to_string(++i)+": "+ line << endl;
+			//cout << "DEBUG: parse line: "+to_string(++i)+": "+ line << endl;
 			lines.push_back(line);
 		}
 		
@@ -370,7 +369,7 @@ class Compiler {
 			m_errorStack.push_back(ss.str());
 			return false;
 		}
-		else if (m_currentScope->IsDeclared(exp->GetVariable()));
+		else if (m_currentScope->IsDeclared(exp->GetVariable()))
 		{
 			return true;
 		}
@@ -434,11 +433,16 @@ int main()
 {
 	cout << "Hello Language Parser." << endl;	
 
-	string input1 = "DECLARE hello;\nACCESS hello;";
-	string input2 = "SCOPE moi {\n                 DECLARE yo;\nACCESS yo;\n}\n\nDECLARE hello;\nACCESS hello;\nACCESS moi::yo;\nACCESS none;";
+	// simple use case, will succeed
+	string input1 = "DECLARE hello;\nACCESS hello;";	
+	//complex use case, will fail, because trying to access undeclared variable
+	string input2 = "SCOPE moi {\n                 DECLARE yo;\nACCESS yo;\n}\n\nDECLARE hello;\nACCESS hello;\nACCESS moi::yo;\nACCESS none;";	
+	//will fail because no variables have been declared
 	string input3 = "ACCESS lol::peelo;\nACCESS ::lolo::peelo;";
+	//complex, will succeed
+	string input4 = "DECLARE foo;\n DECLARE bar;\nSCOPE peon {\n    DECLARE foobar;\nACCESS foobar;\n}\nACCESS foo;\nACCESS bar;";
 		
-	Parser parser(input2);
+	Parser parser(input4);
 	cout << parser.getOutput();	
 
 	Compiler compiler;
