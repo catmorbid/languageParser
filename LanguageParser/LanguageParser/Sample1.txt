@@ -1,0 +1,9 @@
+DECLARE mao;
+ACCESS mao;
+SCOPE rofl {
+	ACCESS mao;
+	DECLARE lol;
+	ACCESS lol;
+}
+ACCESS rofl::mao;
+ACCESS rofl;

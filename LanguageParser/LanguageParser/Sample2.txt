@@ -1,0 +1,9 @@
+DECLARE rofl;
+ACCESS rofl;
+SCOPE mao {
+	ACCESS rofl;
+	DECLARE lol;
+	ACCESS lol;
+}
+ACCESS lol;
+ACCESS rofl;
